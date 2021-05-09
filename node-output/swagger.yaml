@@ -1,0 +1,94 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "Simple API",
+    "description" : "This is my first API",
+    "contact" : {
+      "email" : "you@your-company.com"
+    },
+    "license" : {
+      "name" : "ddApache 2.0",
+      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version" : "1.0.0"
+  },
+  "servers" : [ {
+    "url" : "https://virtserver.swaggerhub.com/barifergan/SoccerAPI/1.0.0",
+    "description" : "SwaggerHub API Auto Mocking"
+  }, {
+    "url" : "https://virtserver.swaggerhub.com/ophirporat/ophirsAPI/1.0.0",
+    "description" : "SwaggerHub API Auto Mocking"
+  } ],
+  "tags" : [ {
+    "name" : "user",
+    "description" : "regular user"
+  }, {
+    "name" : "developers",
+    "description" : "Operations available to regular developers"
+  } ],
+  "paths" : {
+    "/register" : {
+      "post" : {
+        "tags" : [ "user" ],
+        "summary" : "register",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/user"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/user"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter"
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "user" : {
+        "type" : "object",
+        "properties" : {
+          "userName" : {
+            "maxLength" : 8,
+            "minLength" : 3,
+            "pattern" : "[a-zA-Z]",
+            "type" : "string"
+          },
+          "firstName" : {
+            "type" : "string"
+          },
+          "lastName" : {
+            "type" : "string"
+          },
+          "country" : {
+            "type" : "string"
+          },
+          "password" : {
+            "maxLength" : 10,
+            "minLength" : 5,
+            "type" : "string"
+          }
+        }
+      }
+    }
+  }
+}
