@@ -42,7 +42,7 @@
     "/register" : {
       "post" : {
         "tags" : [ "user" ],
-        "summary" : "register",
+        "summary" : "Register to system",
         "description" : "JSON object contains all the details about user",
         "requestBody" : {
           "content" : {
@@ -56,13 +56,13 @@
         },
         "responses" : {
           "201" : {
-            "description" : "user has been added"
+            "description" : "User has been added"
           },
           "400" : {
-            "description" : "bad input parameter"
+            "description" : "Wrong input parameter"
           },
           "409" : {
-            "description" : "username is already taken"
+            "description" : "Username is already taken"
           }
         }
       }
@@ -70,7 +70,7 @@
     "/login" : {
       "get" : {
         "tags" : [ "user" ],
-        "summary" : "login to system with username and password",
+        "summary" : "Login to system with username and password",
         "parameters" : [ {
           "name" : "username",
           "in" : "query",
@@ -97,13 +97,16 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "string"
+                  "$ref" : "#/components/schemas/user"
                 }
               }
             }
           },
+          "400" : {
+            "description" : "Wrong input parameter"
+          },
           "404" : {
-            "description" : "user not found"
+            "description" : "User not found"
           }
         }
       }
@@ -114,18 +117,18 @@
         "summary" : "logout",
         "responses" : {
           "200" : {
-            "description" : "successful logout"
+            "description" : "Successful logout"
           },
           "404" : {
-            "description" : "need to login"
+            "description" : "Need to login"
           }
         }
       }
     },
-    "/player/{player_name}" : {
+    "/searchPlayer/{player_name}" : {
       "get" : {
         "tags" : [ "player" ],
-        "summary" : "get players by name",
+        "summary" : "Search player by name",
         "parameters" : [ {
           "name" : "player_name",
           "in" : "path",
@@ -148,15 +151,15 @@
             }
           },
           "404" : {
-            "description" : "page not found"
+            "description" : "Page not found"
           }
         }
       }
     },
-    "/player/{player_id}" : {
+    "/searchPlayer/{player_id}" : {
       "get" : {
         "tags" : [ "player" ],
-        "summary" : "get players by name",
+        "summary" : "Search players by id",
         "parameters" : [ {
           "name" : "player_id",
           "in" : "path",
@@ -179,7 +182,7 @@
             }
           },
           "404" : {
-            "description" : "page not found"
+            "description" : "Page not found"
           }
         }
       }
@@ -187,7 +190,7 @@
     "/team/{team_name}" : {
       "get" : {
         "tags" : [ "team" ],
-        "summary" : "get teams by name",
+        "summary" : "Search team by name",
         "parameters" : [ {
           "name" : "team_name",
           "in" : "path",
@@ -218,7 +221,7 @@
     "/team/{team_id}" : {
       "get" : {
         "tags" : [ "team" ],
-        "summary" : "get teams by id",
+        "summary" : "Search team by id",
         "parameters" : [ {
           "name" : "team_id",
           "in" : "path",
@@ -249,7 +252,7 @@
     "/coach/{coach_name}" : {
       "get" : {
         "tags" : [ "coach" ],
-        "summary" : "get coaches by name",
+        "summary" : "Search coach by name",
         "parameters" : [ {
           "name" : "coach_name",
           "in" : "path",
@@ -272,7 +275,7 @@
             }
           },
           "404" : {
-            "description" : "page not found"
+            "description" : "Page not found"
           }
         }
       }
@@ -280,7 +283,7 @@
     "/coach/{coach_id}" : {
       "get" : {
         "tags" : [ "coach" ],
-        "summary" : "get coaches by id",
+        "summary" : "Search coach by id",
         "parameters" : [ {
           "name" : "coach_id",
           "in" : "path",
@@ -303,7 +306,7 @@
             }
           },
           "404" : {
-            "description" : "page not found"
+            "description" : "Page not found"
           }
         }
       }
@@ -311,7 +314,7 @@
     "/league/{league_id}" : {
       "get" : {
         "tags" : [ "league" ],
-        "summary" : "get league by id",
+        "summary" : "Search league by id",
         "parameters" : [ {
           "name" : "league_id",
           "in" : "path",
@@ -334,7 +337,7 @@
             }
           },
           "404" : {
-            "description" : "page not found"
+            "description" : "Page not found"
           }
         }
       }
@@ -353,18 +356,18 @@
           "required" : true
         },
         "responses" : {
-          "200" : {
-            "description" : "Data of specific user",
+          "201" : {
+            "description" : "Match added successfully",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/league"
+                  "$ref" : "#/components/schemas/match"
                 }
               }
             }
           },
           "400" : {
-            "description" : "bad request"
+            "description" : "Wrong input parameters"
           }
         }
       }
@@ -372,7 +375,7 @@
     "/match/{match_id}" : {
       "get" : {
         "tags" : [ "match" ],
-        "summary" : "get match by id",
+        "summary" : "Search match by id",
         "parameters" : [ {
           "name" : "match_id",
           "in" : "path",
@@ -385,16 +388,23 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "match updated"
+            "description" : "Data of specific match",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/match"
+                }
+              }
+            }
           },
           "404" : {
-            "description" : "page not found"
+            "description" : "Page not found"
           }
         }
       },
       "put" : {
         "tags" : [ "match" ],
-        "summary" : "update match score",
+        "summary" : "Uupdate match results",
         "parameters" : [ {
           "name" : "match_id",
           "in" : "path",
@@ -418,18 +428,18 @@
         },
         "responses" : {
           "200" : {
-            "description" : "match updated"
+            "description" : "Match updated"
           },
           "404" : {
-            "description" : "page not found"
+            "description" : "Page not found"
           }
         }
       }
     },
     "/match/events/{match_id}" : {
-      "put" : {
+      "post" : {
         "tags" : [ "match" ],
-        "summary" : "add event to match",
+        "summary" : "Add new event to match",
         "parameters" : [ {
           "name" : "match_id",
           "in" : "path",
@@ -438,7 +448,8 @@
           "explode" : false,
           "schema" : {
             "type" : "string"
-          }
+          },
+          "example" : "13.2.2020, 13:30, 40, yello card to Messi"
         } ],
         "requestBody" : {
           "content" : {
@@ -451,11 +462,14 @@
           "required" : true
         },
         "responses" : {
-          "200" : {
-            "description" : "match updated"
+          "201" : {
+            "description" : "Event created seccessfuly"
+          },
+          "400" : {
+            "description" : "Wrong input parameter"
           },
           "404" : {
-            "description" : "page not found"
+            "description" : "Page not found"
           }
         }
       }
@@ -463,26 +477,29 @@
     "/profile/favorite/matches" : {
       "get" : {
         "tags" : [ "profile" ],
-        "summary" : "get favorite matches",
+        "summary" : "Get favorite matches",
         "responses" : {
           "200" : {
-            "description" : "match updated",
+            "description" : "Data of favorite matches",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/match"
+                  "$ref" : "#/components/schemas/profile/properties/fav-matches"
                 }
               }
             }
           },
+          "401" : {
+            "description" : "User need to login"
+          },
           "404" : {
-            "description" : "page not found"
+            "description" : "Page not found"
           }
         }
       },
       "post" : {
         "tags" : [ "profile" ],
-        "summary" : "add game to profile favorits",
+        "summary" : "Add match to favorites",
         "requestBody" : {
           "content" : {
             "application/json" : {
@@ -495,10 +512,13 @@
         },
         "responses" : {
           "200" : {
-            "description" : "match updated"
+            "description" : "Match added to favorites"
+          },
+          "401" : {
+            "description" : "User need to login"
           },
           "404" : {
-            "description" : "page not found"
+            "description" : "Page not found"
           }
         }
       }
@@ -506,7 +526,7 @@
     "/profile/favorite/matches/{match_id}" : {
       "delete" : {
         "tags" : [ "profile" ],
-        "summary" : "add game to profile favorits",
+        "summary" : "Delete match from favorites",
         "parameters" : [ {
           "name" : "match_id",
           "in" : "path",
@@ -519,10 +539,10 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "match updated"
+            "description" : "Match removed from favorites"
           },
           "404" : {
-            "description" : "page not found"
+            "description" : "Page not found"
           }
         }
       }
@@ -530,26 +550,29 @@
     "/profile/favorite/players" : {
       "get" : {
         "tags" : [ "profile" ],
-        "summary" : "get favorite matches",
+        "summary" : "Get favorite players",
         "responses" : {
           "200" : {
-            "description" : "match updated",
+            "description" : "Data of favorite Players",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/player"
+                  "$ref" : "#/components/schemas/profile/properties/fav-players"
                 }
               }
             }
           },
+          "401" : {
+            "description" : "User need to login"
+          },
           "404" : {
-            "description" : "page not found"
+            "description" : "Page not found"
           }
         }
       },
       "post" : {
         "tags" : [ "profile" ],
-        "summary" : "add player to profile favorits",
+        "summary" : "Add player to profile favorites",
         "requestBody" : {
           "content" : {
             "application/json" : {
@@ -562,10 +585,13 @@
         },
         "responses" : {
           "200" : {
-            "description" : "match updated"
+            "description" : "Player added to favorites"
+          },
+          "401" : {
+            "description" : "User need to login"
           },
           "404" : {
-            "description" : "page not found"
+            "description" : "Page not found"
           }
         }
       }
@@ -573,7 +599,7 @@
     "/profile/favorite/players/{player_id}" : {
       "delete" : {
         "tags" : [ "profile" ],
-        "summary" : "delete player from profile favorits",
+        "summary" : "Delete player from favorites",
         "parameters" : [ {
           "name" : "player_id",
           "in" : "path",
@@ -586,10 +612,10 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "match updated"
+            "description" : "Player removed from favorites"
           },
           "404" : {
-            "description" : "page not found"
+            "description" : "Page not found"
           }
         }
       }
@@ -597,26 +623,29 @@
     "/profile/favorite/teams" : {
       "get" : {
         "tags" : [ "profile" ],
-        "summary" : "get favorite teams",
+        "summary" : "Get favorite teams",
         "responses" : {
           "200" : {
-            "description" : "match updated",
+            "description" : "Data of favorite teams",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/team"
+                  "$ref" : "#/components/schemas/profile/properties/fav-teams"
                 }
               }
             }
           },
+          "401" : {
+            "description" : "User need to login"
+          },
           "404" : {
-            "description" : "page not found"
+            "description" : "Page not found"
           }
         }
       },
       "post" : {
         "tags" : [ "profile" ],
-        "summary" : "add team to profile favorits",
+        "summary" : "Add team to profile favorites",
         "requestBody" : {
           "content" : {
             "application/json" : {
@@ -629,10 +658,13 @@
         },
         "responses" : {
           "200" : {
-            "description" : "match updated"
+            "description" : "Team added to favorites"
+          },
+          "401" : {
+            "description" : "User need to login"
           },
           "404" : {
-            "description" : "page not found"
+            "description" : "Page not found"
           }
         }
       }
@@ -640,7 +672,7 @@
     "/profile/favorite/teams/{team_id}" : {
       "delete" : {
         "tags" : [ "profile" ],
-        "summary" : "delete player from profile favorits",
+        "summary" : "Delete team from favorites",
         "parameters" : [ {
           "name" : "team_id",
           "in" : "path",
@@ -653,10 +685,10 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "match updated"
+            "description" : "Player removed from favorites"
           },
           "404" : {
-            "description" : "page not found"
+            "description" : "Page not found"
           }
         }
       }
@@ -664,6 +696,7 @@
     "/league/{league-id}/{season-id}/{stage}" : {
       "get" : {
         "tags" : [ "league" ],
+        "summary" : "Get all Matches of stage",
         "parameters" : [ {
           "name" : "league-id",
           "in" : "path",
@@ -694,7 +727,7 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "match updated",
+            "description" : "Data of all stage's matches",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -704,7 +737,7 @@
             }
           },
           "404" : {
-            "description" : "page not found"
+            "description" : "Page not found"
           }
         }
       }
@@ -715,21 +748,29 @@
       "match" : {
         "type" : "object",
         "properties" : {
-          "home-team-name" : {
-            "type" : "string"
+          "home-team-id" : {
+            "type" : "integer",
+            "example" : 2597
           },
-          "away-team-name" : {
-            "type" : "string"
+          "away-team-id" : {
+            "type" : "integer",
+            "example" : 2777
           },
           "date" : {
             "pattern" : "date",
             "type" : "string"
           },
           "field" : {
-            "type" : "string"
+            "type" : "string",
+            "example" : "Bloomfild"
           },
-          "result" : {
-            "type" : "string"
+          "home-goals" : {
+            "type" : "integer",
+            "example" : 2
+          },
+          "away-goals" : {
+            "type" : "integer",
+            "example" : 2
           },
           "events" : {
             "type" : "array",
@@ -740,19 +781,40 @@
         }
       },
       "event" : {
-        "type" : "integer"
+        "type" : "object",
+        "properties" : {
+          "date" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "hour" : {
+            "type" : "string",
+            "example" : "19:50"
+          },
+          "minute" : {
+            "type" : "string",
+            "example" : "19:22"
+          },
+          "action" : {
+            "type" : "string",
+            "example" : "goal"
+          }
+        }
       },
       "league" : {
         "type" : "object",
         "properties" : {
           "league-name" : {
-            "type" : "string"
+            "type" : "string",
+            "example" : "champion league"
           },
           "season" : {
-            "type" : "string"
+            "type" : "string",
+            "example" : "2015/2016"
           },
           "stage" : {
-            "type" : "string"
+            "type" : "integer",
+            "example" : 2
           },
           "matches" : {
             "type" : "array",
@@ -770,22 +832,26 @@
             "minLength" : 3,
             "pattern" : "[a-zA-Z]",
             "type" : "string",
-            "example" : "ophir"
+            "example" : "Barush"
           },
           "firstName" : {
-            "type" : "string"
+            "type" : "string",
+            "example" : "Bar"
           },
           "lastName" : {
-            "type" : "string"
+            "type" : "string",
+            "example" : "Ifergan"
           },
           "country" : {
-            "type" : "string"
+            "type" : "string",
+            "example" : "israel"
           },
           "password" : {
             "maxLength" : 10,
             "minLength" : 5,
             "type" : "string",
-            "format" : "password"
+            "format" : "password",
+            "example" : "bar!4"
           },
           "email" : {
             "type" : "string",
@@ -803,13 +869,15 @@
         "type" : "object",
         "properties" : {
           "id" : {
-            "type" : "integer"
+            "type" : "integer",
+            "example" : 3321
           },
           "full-name" : {
-            "type" : "string"
+            "type" : "string",
+            "example" : "cristiano ronaldo"
           },
-          "team-name" : {
-            "type" : "string"
+          "team" : {
+            "$ref" : "#/components/schemas/team"
           },
           "image-url" : {
             "type" : "string",
@@ -818,22 +886,29 @@
             "example" : "https://cloudinary.com/"
           },
           "position" : {
-            "type" : "integer"
+            "type" : "integer",
+            "example" : 5
           },
           "page-url" : {
             "pattern" : "url",
-            "type" : "string"
+            "type" : "string",
+            "example" : "https://cloudinary.com/"
           }
         }
       },
       "coach" : {
         "type" : "object",
         "properties" : {
-          "full-name" : {
-            "type" : "string"
+          "id" : {
+            "type" : "integer",
+            "example" : 814
           },
-          "team-name" : {
-            "type" : "string"
+          "full-name" : {
+            "type" : "string",
+            "example" : "udi porat"
+          },
+          "team" : {
+            "$ref" : "#/components/schemas/team"
           },
           "image-url" : {
             "type" : "string",
@@ -843,7 +918,8 @@
           },
           "page-url" : {
             "pattern" : "url",
-            "type" : "string"
+            "type" : "string",
+            "example" : "https://cloudinary.com/"
           }
         }
       },
@@ -851,7 +927,8 @@
         "type" : "object",
         "properties" : {
           "id" : {
-            "type" : "integer"
+            "type" : "integer",
+            "example" : 222
           },
           "user" : {
             "$ref" : "#/components/schemas/user"
